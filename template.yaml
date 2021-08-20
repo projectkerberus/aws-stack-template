@@ -103,10 +103,12 @@ spec:
   # here's the steps that are executed in series in the scaffolder backend
   steps:
     - id: template
-      name: Template
+      name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: ./
+        url: ./skeleton
+        copyWithoutRender:
+          - .github/workflows/*
         values:
           component_id: "{{ parameters.component_id }}"
           description: "{{ parameters.description }}"
