@@ -12,20 +12,20 @@ jobs:
       - name: Create ArgoCD application
         run: |
           curl -v -k --fail --location \
-          --request POST '{{values.argocd_url}}/api/v1/applications' \
+          --request POST '${{values.argocd_url}}/api/v1/applications' \
           --header 'Content-Type: application/json' \
-          --header 'Cookie: argocd.token={{values.argocd_token}}' \
+          --header 'Cookie: argocd.token=${{values.argocd_token}}' \
           --data-raw '{
               "metadata": {
-                  "name": "{{values.component_id}}"
+                  "name": "${{values.component_id}}"
               },
               "spec": {
                   "source": {
-                      "repoURL": "{{values.storePath}}",
+                      "repoURL": "${{values.storePath}}",
                       "path": "charts/"
                   },
                   "destination": {
-                      "namespace": "{{values.component_id}}",
+                      "namespace": "${{values.component_id}}",
                       "server": "https://kubernetes.default.svc"
                   },
                   "syncPolicy": {
