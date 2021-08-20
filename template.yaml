@@ -1,0 +1,142 @@
+apiVersion: backstage.io/v1beta2
+kind: Template
+metadata:
+  name: aws-template
+  title: Amazon Web Services infrastructure template
+  description: Create a simple AWS stack
+  tags:
+    - aws
+    - eks
+spec:
+  owner: diego.braga86@gmail.com
+  type: service
+
+  # these are the steps which are rendered in the frontend with the form input
+  parameters:
+    - title: AWS stack values
+      required:
+        - component_id
+        - clusterRef
+        - description
+        - networkRef
+        - clusterNodesCount
+        - rdsRef
+        - rdsRegion
+        - rdsDataDiskSizeGb
+        - rdsInstanceClass
+        - rdsEngineVersion
+        - rdsStorageType
+        - argocd_url
+        - argocd_token
+      properties:
+        component_id:
+          title: Name
+          type: string
+          description: Unique name of the component
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this service does.
+        networkRef:
+          title: Network identifier
+          type: string
+          description: Network identifier
+        clusterRef:
+          title: Cluster identifier
+          type: string
+          description: Cluster identifier
+        clusterNodesCount:
+          title: Number of nodes of the cluster per region
+          type: integer
+          description: Number of nodes of the cluster per region
+          default: 2
+        rdsRef:
+          title: RDS identifier
+          type: string
+          description: RDS identifier
+        rdsRegion:
+          title: RDS region
+          type: string
+          description: RDS region
+          default: eu-central-1
+        rdsDataDiskSizeGb:
+          title: RDS disk size (GB)
+          type: integer
+          description: RDS data disk size (GB)
+          default: 10
+        rdsInstanceClass:
+          title: RDS instance class
+          type: string
+          description: Cloud SQL tier
+          default: db.t3.small
+        rdsEngineVersion:
+          title: Cloud SQL Database version
+          type: string
+          description: Cloud SQL Database version
+          default: "13.2"
+        rdsStorageType:
+          title: Cloud SQL data disk type
+          type: string
+          description: Cloud SQL data disk type
+          default: standard
+        argocd_url:
+          title: HTTPS url of ArgoCD
+          type: string
+          description: HTTPS url of ArgoCD
+        argocd_token:
+          title: token for ArgoCD authentication
+          type: string
+          description: token for ArgoCD authentication
+
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # here's the steps that are executed in series in the scaffolder backend
+  steps:
+    - id: template
+      name: Template
+      action: fetch:template
+      input:
+        url: ./
+        values:
+          component_id: "{{ parameters.component_id }}"
+          description: "{{ parameters.description }}"
+          networkRef: "{{ parameters.networkRef }}"
+          clusterRef: "{{ parameters.clusterRef }}"
+          clusterNodesCount: "{{ parameters.clusterNodesCount }}"
+          rdsRef: "{{ parameters.rdsRef }}"
+          rdsRegion: "{{ parameters.rdsRegion }}"
+          rdsDataDiskSizeGb: "{{ parameters.rdsDataDiskSizeGb }}"
+          rdsInstanceClass: "{{ parameters.rdsInstanceClass }}"
+          rdsEngineVersion: "{{ parameters.rdsEngineVersion }}"
+          rdsStorageType: "{{ parameters.rdsStorageType }}"
+          argocd_url: "{{ parameters.argocd_url }}"
+          argocd_token: "{{ parameters.argocd_token }}"
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: "This is a AWS stack with name {{ parameters.component_id }}"
+        repoUrl: "{{ parameters.repoUrl }}"
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: "{{ steps.publish.output.repoContentsUrl }}"
+        catalogInfoPath: "/catalog-info.yaml"
+
+  output:
+    remoteUrl: "{{ steps.publish.output.remoteUrl }}"
+    entityRef: "{{ steps.register.output.entityRef }}"

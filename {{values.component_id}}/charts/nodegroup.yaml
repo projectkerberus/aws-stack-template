@@ -1,0 +1,24 @@
+
+---
+apiVersion: eks.aws.crossplane.io/v1alpha1
+kind: NodeGroup
+metadata:
+  name: {{values.clusterRef}}-ng
+spec:
+  forProvider:
+    region: eu-central-1
+    clusterNameRef:
+      name: {{values.clusterRef}}
+    scalingConfig:
+      minSize: {{values.clusterNodesCount}}
+      maxSize: {{values.clusterNodesCount}}
+      desiredSize: {{values.clusterNodesCount}}
+    instanceTypes:
+      - t3.medium
+    subnetRefs: 
+      - name: {{values.networkRef}}-sn0
+      - name: {{values.networkRef}}-sn1
+    nodeRoleRef: 
+      name: {{values.clusterRef}}-ng-noderole
+  providerConfigRef:
+    name: aws-stack-template-provider

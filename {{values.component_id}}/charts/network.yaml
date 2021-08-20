@@ -1,0 +1,81 @@
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: VPC
+metadata:
+  name: {{values.networkRef}}
+spec:
+  forProvider:
+    region: eu-central-1
+    cidrBlock: 10.1.0.0/16
+    enableDnsSupport: true
+    enableDnsHostNames: true
+  providerConfigRef:
+    name: aws-stack-template-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: InternetGateway
+metadata:
+  name: {{values.networkRef}}-ig
+spec:
+  forProvider:
+    region: eu-central-1
+    vpcIdRef:
+      name: {{values.networkRef}}
+  providerConfigRef:
+    name: aws-stack-template-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: {{values.networkRef}}-sn0
+  labels:
+    zone: eu-central-1a
+    access: private
+spec:
+  forProvider:
+    region: eu-central-1
+    mapPublicIPOnLaunch: true
+    cidrBlock: 10.1.1.0/24
+    availabilityZone: eu-central-1a
+    vpcIdRef:
+      name: {{values.networkRef}}
+  providerConfigRef:
+    name: aws-stack-template-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: {{values.networkRef}}-sn1
+  labels:
+    zone: eu-central-1b
+    access: private
+spec:
+  forProvider:
+    region: eu-central-1
+    mapPublicIPOnLaunch: true
+    cidrBlock: 10.1.2.0/24
+    availabilityZone: eu-central-1b
+    vpcIdRef:
+      name: {{values.networkRef}}
+  providerConfigRef:
+    name: aws-stack-template-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: RouteTable
+metadata:
+  name: {{values.networkRef}}-rt
+spec:
+  forProvider:
+    region: eu-central-1
+    vpcIdRef:
+      name: {{values.networkRef}}
+    routes:
+      - destinationCidrBlock: 0.0.0.0/0
+        gatewayIdRef:
+          name: {{values.networkRef}}-ig
+    associations:
+      - subnetIdRef:
+          name: {{values.networkRef}}-sn0
+      - subnetIdRef:
+          name: {{values.networkRef}}-sn1
+  providerConfigRef:
+    name: aws-stack-template-provider
