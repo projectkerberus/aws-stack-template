@@ -1,9 +1,9 @@
 apiVersion: eks.aws.crossplane.io/v1beta1
 kind: Cluster
 metadata:
-  name: {{values.clusterRef}}
+  name: ${{values.clusterRef}}
   labels:
-    backstage.io/kubernetes-id: {{values.component_id}}
+    backstage.io/kubernetes-id: ${{values.component_id}}
 spec:
   forProvider:
     region: eu-central-1
@@ -11,12 +11,12 @@ spec:
       endpointPrivateAccess: true
       endpointPublicAccess: true
       subnetIdRefs:
-        - name: {{values.networkRef}}-sn0
-        - name: {{values.networkRef}}-sn1
+        - name: ${{values.networkRef}}-sn0
+        - name: ${{values.networkRef}}-sn1
     roleArnRef:
-      name: {{values.component_id}}-controlplane
+      name: ${{values.component_id}}-controlplane
   writeConnectionSecretToRef:
-    name: {{values.component_id}}-eks-kubeconfig
+    name: ${{values.component_id}}-eks-kubeconfig
     namespace: crossplane-system
   providerConfigRef:
     name: aws-stack-template-provider
