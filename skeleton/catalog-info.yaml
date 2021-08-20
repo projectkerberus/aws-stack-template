@@ -4,8 +4,8 @@ metadata:
   name: ${{values.component_id}}
   description: ${{values.description}}
   annotations:
-    github.com/project-slug: ${{values.destination.git.owner + "/" + values.destination.git.name}}
-    backstage.io/techdocs-ref: url:{{values.storePath}}
+    github.com/project-slug: ${{values.destination.owner + "/" + values.destination.name}}
+    backstage.io/techdocs-ref: url:{{steps.publish.output.remoteUrl}}
     argocd/app-name: ${{values.component_id}}
     backstage.io/kubernetes-id: ${{values.component_id}}
 spec:

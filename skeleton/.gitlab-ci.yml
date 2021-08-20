@@ -10,7 +10,7 @@ create-argocd-application:
             },
             "spec": {
                 "source": {
-                    "repoURL": "${{values.storePath}}.git",
+                    "repoURL": "${{steps.publish.output.remoteUrl}}.git",
                     "path": "charts/"
                 },
                 "destination": {

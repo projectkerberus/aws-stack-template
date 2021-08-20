@@ -129,6 +129,7 @@ spec:
         allowedHosts: ["github.com"]
         description: "This is a AWS stack with name {{ parameters.component_id }}"
         repoUrl: "{{ parameters.repoUrl }}"
+        repoVisibility: public
 
     - id: register
       name: Register

@@ -21,7 +21,7 @@ jobs:
               },
               "spec": {
                   "source": {
-                      "repoURL": "${{values.storePath}}",
+                      "repoURL": "${{steps.publish.output.remoteUrl}}",
                       "path": "charts/"
                   },
                   "destination": {
