@@ -132,8 +132,6 @@ spec:
       action: kerberus:argocd
       input:
         host: ${{parameters.repoUrl}}
-        owner: ${{parameters.destination.owner}}
-        repo: ${{parameters.destination.repo}}
 
   output:
     remoteUrl: "{{ steps.publish.output.remoteUrl }}"
