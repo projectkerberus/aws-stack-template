@@ -21,7 +21,7 @@ jobs:
               },
               "spec": {
                   "source": {
-                      "repoURL": "https://${{values.desination.host}}/${{values.destination.owner}}/${{values.destination.repo}}.git",
+                      "repoURL": "https://${{values.destination.host}}/${{values.destination.owner}}/${{values.destination.repo}}.git",
                       "path": "charts/"
                   },
                   "destination": {
