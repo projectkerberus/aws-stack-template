@@ -121,6 +121,7 @@ spec:
           rdsStorageType: "{{ parameters.rdsStorageType }}"
           argocd_url: "{{ parameters.argocd_url }}"
           argocd_token: "{{ parameters.argocd_token }}"
+          destination: "{{ parseRepoUrl parameters.repoUrl }}"
 
     - id: publish
       name: Publish
