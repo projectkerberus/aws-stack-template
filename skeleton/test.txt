@@ -8,3 +8,15 @@ STEPS
 ---
 ${{steps | dump}}
 ---
+---
+---
+PARAMETERS
+---
+${{parameters | dump}}
+---
+---
+---
+OUTPUT
+---
+${{output | dump}}
+---

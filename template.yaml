@@ -90,8 +90,18 @@ spec:
 
     - title: Choose a location
       required:
+        - owner
         - repoUrl
       properties:
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+            - title: Choose a location
         repoUrl:
           title: Repository Location
           type: string
