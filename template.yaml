@@ -101,7 +101,6 @@ spec:
           ui:options:
             allowedKinds:
               - Group
-            - title: Choose a location
         repoUrl:
           title: Repository Location
           type: string
