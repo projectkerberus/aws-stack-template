@@ -26,8 +26,8 @@ spec:
         - rdsInstanceClass
         - rdsEngineVersion
         - rdsStorageType
-        - argocd_url
-        - argocd_token
+        # - argocd_url
+        # - argocd_token
       properties:
         component_id:
           title: Name
