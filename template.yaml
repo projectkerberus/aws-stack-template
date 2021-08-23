@@ -79,14 +79,14 @@ spec:
           type: string
           description: Cloud SQL data disk type
           default: standard
-        argocd_url:
-          title: HTTPS url of ArgoCD
-          type: string
-          description: HTTPS url of ArgoCD
-        argocd_token:
-          title: token for ArgoCD authentication
-          type: string
-          description: token for ArgoCD authentication
+        # argocd_url:
+        #   title: HTTPS url of ArgoCD
+        #   type: string
+        #   description: HTTPS url of ArgoCD
+        # argocd_token:
+        #   title: token for ArgoCD authentication
+        #   type: string
+        #   description: token for ArgoCD authentication
 
     - title: Choose a location
       required:
@@ -119,8 +119,8 @@ spec:
           rdsInstanceClass: "{{ parameters.rdsInstanceClass }}"
           rdsEngineVersion: "{{ parameters.rdsEngineVersion }}"
           rdsStorageType: "{{ parameters.rdsStorageType }}"
-          argocd_url: "{{ parameters.argocd_url }}"
-          argocd_token: "{{ parameters.argocd_token }}"
+          # argocd_url: "{{ parameters.argocd_url }}"
+          # argocd_token: "{{ parameters.argocd_token }}"
           destination: "{{ parseRepoUrl parameters.repoUrl }}"
 
     - id: publish
@@ -138,6 +138,14 @@ spec:
       input:
         repoContentsUrl: "{{ steps.publish.output.repoContentsUrl }}"
         catalogInfoPath: "/catalog-info.yaml"
+
+    - id: argocd
+      name: ArgoCD
+      action: kerberus:argocd
+      input:
+        host: ${{values.destination.host}}
+        owner: ${{values.destination.owner}}
+        repo: ${{values.destination.repo}}
 
   output:
     remoteUrl: "{{ steps.publish.output.remoteUrl }}"
