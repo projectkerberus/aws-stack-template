@@ -128,7 +128,7 @@ spec:
         catalogInfoPath: "/catalog-info.yaml"
 
     - id: argocd
-      name: ArgoCD
+      name: Create application on ArgoCD
       action: kerberus:argocd
       input:
         host: ${{parameters.repoUrl}}
