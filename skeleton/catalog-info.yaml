@@ -8,8 +8,8 @@ metadata:
     backstage.io/techdocs-ref: dir:.
     argocd/app-name: ${{values.component_id | dump}}
     backstage.io/kubernetes-id: ${{values.component_id | dump}}
-    sonarqube.org/project-key: ${{values.component_id}}
+    sonarqube.org/project-key: ${{values.destination.owner + "_" + values.destination.repo}}
 spec:
   type: service
   lifecycle: experimental
-  owner: $${{values.owner | dump}}
+  owner: ${{values.destination.owner | dump}}
