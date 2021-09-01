@@ -133,13 +133,6 @@ spec:
       input:
         host: ${{parameters.repoUrl}}
 
-    - id: sonarcloud
-      name: Create application on SonarCloud
-      action: kerberus:sonarcloud
-      input:
-        host: ${{parameters.repoUrl}}
-        component_id: ${{parameters.component_id}}
-
   output:
     remoteUrl: "{{ steps.publish.output.remoteUrl }}"
     entityRef: "{{ steps.register.output.entityRef }}"
