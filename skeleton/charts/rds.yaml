@@ -27,7 +27,7 @@ spec:
     storageEncrypted: false
     storageType: ${{values.rdsStorageType}}
   writeConnectionSecretToRef:
-    name: rdspostgresql-conn
+    name: ${{values.component_id}}-rdspostgresql-conn
     namespace: crossplane-system
   providerConfigRef:
     name: aws-stack-template-provider
