@@ -66,7 +66,7 @@ spec:
           title: RDS instance class
           type: string
           description: Cloud SQL tier
-          default: db.t3.small
+          default: db.t2.micro
         rdsEngineVersion:
           title: Cloud SQL Database version
           type: string
