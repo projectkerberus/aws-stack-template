@@ -8,7 +8,7 @@ metadata:
     - aws
     - eks
 spec:
-  owner: diego.braga86@gmail.com
+  owner: diego.braga@kiratech.it
   type: service
 
   # these are the steps which are rendered in the frontend with the form input
