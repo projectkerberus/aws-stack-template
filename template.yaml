@@ -26,6 +26,7 @@ spec:
         - rdsInstanceClass
         - rdsEngineVersion
         - rdsStorageType
+        - owner
       properties:
         component_id:
           title: Name
@@ -77,6 +78,14 @@ spec:
           type: string
           description: Cloud SQL data disk type
           default: standard
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
 
     - title: Choose a location
       required:
@@ -109,6 +118,7 @@ spec:
           rdsInstanceClass: "{{ parameters.rdsInstanceClass }}"
           rdsEngineVersion: "{{ parameters.rdsEngineVersion }}"
           rdsStorageType: "{{ parameters.rdsStorageType }}"
+          owner: "{{ parameters.owner }}"
           destination: "{{ parseRepoUrl parameters.repoUrl }}"
 
     - id: publish
@@ -130,6 +140,12 @@ spec:
     - id: argocd
       name: Create application on ArgoCD
       action: kerberus:argocd
+      input:
+        host: ${{parameters.repoUrl}}
+
+    - id: githubprotection
+      name: Set GitHub branch protection
+      action: kerberus:githubprotection
       input:
         host: ${{parameters.repoUrl}}
 
